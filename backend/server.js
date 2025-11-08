@@ -1,13 +1,23 @@
+require('dotenv').config()
+
 const express = require('express'); // here we have imported export using require which is the keyword for import in node js which uses commonjs keywords.
+const workoutRoutes = require('./routes/workouts')
 
  
 // creates express app by allowing us to call function for the app 
 const app = express() ;
 
-app.get('/',(req, res) => {
-    res.json({mssg : 'Welcome to the app'})
+
+// checks iif the request sends data and if it does then attaches it to the req object in json format
+app.use(express.json())
+
+
+
+//this says that wherever someone comes in this route (/api/workouts)  use the workoutRoutes
+app.use('/api/workouts',workoutRoutes)
+
+// listens for requests on a port and runs the function given , here process refers to the info of the os and process.env returns a object containing all environment variables and PORT tells it to give the env variable named port.
+app.listen(process.env.PORT,() => {
+    console.log("Successfully listening on port ",process.env.PORT )
 })
-// listens for requests on a port and runs the function given 
-app.listen(4000,() => {
-    console.log("Successfully listening on port 4000!!")
-})
+
